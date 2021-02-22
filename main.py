@@ -9,8 +9,14 @@ from Refresh_Files.PicklistGen import Picklist_Functions
 from Refresh_Files.ChecklistGen import ChecklistFunctions
 from Refresh_Files.ShipmentGen import ShipmentListFunctions
 from Refresh_Files.PutAwayListGen import PutAwayListFunctions
+from Handle_Messages.Message_Length_1 import HandleMessage1
+from Handle_Messages.PickingModeBootUp_len_2 import HandleMessage2
+from Handle_Messages.CheckingModeBootUp_len_3 import HandleMessage3
+from Handle_Messages.ShipmentModeBootUp_len_4 import HandleMessage4
 
 path_To_Database = "/Users/joshmanik/PycharmProjects/Panda Server/TWOPAKTESTFILE.xlsx"
+
+Start_Date = datetime.date.today() -  timedelta(738)
 
 # Dictionary that holds all our ordered lists
 
@@ -61,93 +67,103 @@ Picked_DFS = None
 # how it works is it identifies the length of the message and uses that length
 # to specify which message it then should return
 
-class Twisted_Echo_Server(Protocol):
+class Echo(Protocol):
 
 
     def data_received(self, data):
         # As soon as data is received handle the message
         # to gain the response and send it right back
+
+        print("got")
         response = self.handle_Message(data)
         self.transport.write(response)
 
     def handle_message(self, msg):
-        msg = self.decode_message(msg=msg)
-
-        # We define our lists here to save us typing them out hundreds of times
-
-        Picking_Reference_List = database["Picking_Reference_List"]
-        Picking_Status_List = database["Picking_Status_List"]
-        Individual_Picking_Errors = database["Individual_Picking_Errors"]
-        Individual_Picking_Status = database["Individual_Picking_Status"]
-        Individual_Picking_Users = database["Individual_Picking_Users"]
-
-
-        if len(msg) == 1:
-
-
-
-
-
-
-    def decode_message(self, msg):
         try:
             msg = msg.decode('utf-8')
         except UnicodeDecodeError as e:
             msg = pickle.loads(msg)
 
-        return msg
+        # We define our lists here to save us typing them out hundreds of times
 
-    def Handle_message_length_One(self, database, msg):
-        msg = ", ".join(msg)
-        if msg == 'Update':
-            if database["Picking_Reference_List"] == []:
-                Tickback = [[1]]
-                Tickback = pickle.dumps(Tickback, protocol=2)
-                return Tickback
-            Date_To_Search = DATE_MON.strftime("%d-%m-%Y")
-            Tickback = [
-                Date_To_Search, , Picking_Status_List, Authorisation_List,
-                Checking_Status_List, Checking_Reference_List, Shipment_Status_List, Shipment_Reference_List,
-                Shipment_Arrival_List, PutAway_Reference_List, PutAway_Status_List
+        Picking_Reference_List = database["Picking_Reference_List"]
+        Picking_Status_List = database["Picking_Status_List"]
 
-            ]
-            Tickback = pickle.dumps(Tickback, protocol=2)
-            return Tickback
+        # This was a feature that was never implemented so ive just taken out the data
+        # However the app still needs to send an authorisation list so it still has to be an object
+        Authorisation_List = ['']
 
-        Tickback = [[1]]
-        Tickback = pickle.dumps(Tickback, protocol=2)
-        return Tickback
 
+        Individual_Picking_Errors = database["Individual_Picking_Errors"]
+        Individual_Picking_Status = database["Individual_Picking_Status"]
+        Individual_Picking_Users = database["Individual_Picking_Users"]
+        Checking_Reference_List = database["Checking_Reference_List"]
+        Checking_Status_List = database["Checking_Status_List"]
+        Individual_Checking_Errors = database["Individual_Checking_Errors"]
+        Individual_Checking_Status = database["Individual_Checking_Status"]
+        Individual_Checking_Users = database["Individual_Checking_Users"]
+        Shipment_Reference_List = database["Shipment_Reference_List"]
+        Shipment_Status_List = database["Shipment_Status_List"]
+        Shipment_Arrival_List = database["Shipment_Arrival_List"]
+        Individual_Shipment_Errors = database["Individual_Shipment_Errors"]
+        Individual_Shipment_Status = database["Individual_Shipment_Status"]
+        Individual_Shipment_Users = database["Individual_Shipment_Users"]
+        Individual_Shipment_Carton_Placed = database["Individual_Shipment_Carton_Placed"]
+        Individual_Shipment_Pallet_Amount = database["Individual_Shipment_Pallet_Amount"]
+        PutAway_Reference_List = database["PutAway_Reference_List"]
+        PutAway_Status_List = database["PutAway_Status_List"]
+        Individual_PutAway_Errors = database["Individual_PutAway_Errors"]
+        Individual_PutAway_Status = database["Individual_PutAway_Status"]
+        Individual_PutAway_Users = database["Individual_PutAway_Users"]
+        Individual_PutAway_Location = database["Individual_PutAway_Location"]
+        PutAway_Pallet_Counter = database["PutAway_Pallet_Counter"]
+
+
+        if len(msg) == 1:
+            return HandleMessage1.Message_One(
+                msg=msg,
+                Picking_Reference_List= Picking_Reference_List,
+                Picking_Status_List= Picking_Status_List,
+                Checking_Reference_List = Checking_Reference_List,
+                Checking_Status_List= Checking_Status_List,
+                Shipment_Reference_List= Shipment_Reference_List,
+                Shipment_Status_List= Shipment_Status_List,
+                Shipment_Arrival_List= Shipment_Arrival_List,
+                PutAway_Reference_List= PutAway_Reference_List,
+                PutAway_Status_List= PutAway_Status_List,
+                Todays_Date=Start_Date
+            )
+
+        if len(msg) == 2:
+            return HandleMessage2.BootupPickingMode(
+                Picking_Reference_List= Picking_Reference_List,
+                Picking_Status_List= Picking_Status_List,
+                Authorisation_List= Authorisation_List,
+                Start_Date= Start_Date
+            )
+
+        if len(msg) == 3:
+            return HandleMessage3.BootupCheckingMode(
+                Picked_DFS = Picked_DFS,
+                Checking_Reference_List = Checking_Reference_List,
+                Checking_Status_List = Checking_Status_List
+            )
 
 
 
 def main():
     f = Factory()
-    f.protocol = Twisted_Echo_Server
+    f.protocol = Echo
     reactor.listenTCP(8000, f)
     reactor.run()
 
 
-
-
-
-def job():
-    global DATE_MON
-    date_to_check = datetime.date.today()
-    stringed_date_mon = str(DATE_MON)
-    stringed_checkdate = str(date_to_check)
-    if stringed_date_mon == stringed_checkdate:
-        pass
-
-    else:
-        DATE_MON = date_to_check
-
-
 def refresh_files():
     while True:
-        global Todays_Date
-        Todays_Date = datetime.date.today() - timedelta(738)
+        global Start_Date
         # 2019-02-15
+        # Start_Date = Check_to_see_if_day_has_changed(Start_Date)
+
         xlsx = pd.ExcelFile(path_To_Database)
         df = pd.read_excel(xlsx, sheet_name='Sheet1')
 
@@ -156,7 +172,7 @@ def refresh_files():
         Picking_Groupby_Dates = df.groupby('documentDate')
         Picking_Groupby_Refs = df.groupby('reference')
         try:
-            Todays_List = Picking_Groupby_Dates.get_group(Todays_Date)
+            Todays_List = Picking_Groupby_Dates.get_group(Start_Date)
             References_Available = True
         except KeyError:
 
@@ -184,8 +200,20 @@ def refresh_files():
             PutAwayListFunctions.Gen_PutAways(Receipted_DFS=Receipted_DFS, database=database)
 
 
+def Check_to_see_if_day_has_changed(Start_Date):
+    date_to_check = datetime.date.today()
+    strStartDate = str(Start_Date)
+    strCheckDate = str(date_to_check)
+    if strStartDate == strCheckDate:
+        pass
+
+    else:
+        Start_Date = date_to_check
+
+    return Start_Date
+
 if __name__ == '__main__':
-    refreshit = Thread(target=refresh_files())
-    refreshit.start()
+    # refreshit = Thread(target=refresh_files())
+    # refreshit.start()
     main()
-    refreshit.join()
+    # refreshit.join()
