@@ -4,7 +4,7 @@ import pandas as pd
 
 class ShipmentListFunctions:
 
-    def Gen_ShipLists(reference_list_data, path_To_Database):
+    def Gen_ShipLists(database, path_To_Database):
 
         xlsx = pd.ExcelFile(path_To_Database)
         df = pd.read_excel(xlsx, sheet_name='Sheet2')
@@ -16,23 +16,23 @@ class ShipmentListFunctions:
         for ref in list_of_shipment_refs:
             temporary_ship_list.append(ref)
 
-        if len(temporary_ship_list) == len(reference_list_data["Shipment_Reference_List"]):
+        if len(temporary_ship_list) == len(database["Shipment_Reference_List"]):
             pass
         else:
-            if len(temporary_ship_list) > len(reference_list_data["Shipment_Reference_List"]):
-                current_status_list = reference_list_data["Shipment_Status_List"]
-                for num in range(len(reference_list_data["Shipment_Reference_List"]), len(temporary_ship_list) - 1):
+            if len(temporary_ship_list) > len(database["Shipment_Reference_List"]):
+                current_status_list = database["Shipment_Status_List"]
+                for num in range(len(database["Shipment_Reference_List"]), len(temporary_ship_list) - 1):
                     current_status_list.append('Not Arrived')
 
-                reference_list_data["Shipment_Reference_List"] = temporary_ship_list
+                database["Shipment_Reference_List"] = temporary_ship_list
 
-        currentShipList = reference_list_data["Shipment_Reference_List"]
-        currentshipArrrival = reference_list_data["Shipment_Arrival_List"]
-        currentShip_status = reference_list_data["Shipment_Status_List"]
-        currentship_I_Status = reference_list_data["Individual_Shipment_Status"]
-        currentship_I_errors = reference_list_data["Individual_Shipment_Errors"]
-        currentship_I_users = reference_list_data["Individual_Shipment_Users"]
-        currentship_I_cartons_placed = reference_list_data["Individual_Shipment_Carton_Placed"]
+        currentShipList = database["Shipment_Reference_List"]
+        currentshipArrrival = database["Shipment_Arrival_List"]
+        currentShip_status = database["Shipment_Status_List"]
+        currentship_I_Status = database["Individual_Shipment_Status"]
+        currentship_I_errors = database["Individual_Shipment_Errors"]
+        currentship_I_users = database["Individual_Shipment_Users"]
+        currentship_I_cartons_placed = database["Individual_Shipment_Carton_Placed"]
         for count, ref in enumerate(temporary_ship_list):
             if ref == currentShipList[count]:
                 pass
@@ -45,23 +45,23 @@ class ShipmentListFunctions:
                 del currentship_I_users[count]
                 del currentship_I_cartons_placed[count]
 
-        reference_list_data["Shipment_Reference_List"] = currentShipList
-        reference_list_data["Shipment_Arrival_List"] = currentshipArrrival
-        reference_list_data["Individual_Shipment_Status"] = currentship_I_Status
-        reference_list_data["Individual_Shipment_Errors"] = currentship_I_errors
-        reference_list_data["Individual_Shipment_Users"] = currentship_I_users
-        reference_list_data["Individual_Shipment_Carton_Placed"] = currentship_I_cartons_placed
-        reference_list_data["Shipment_Status_List"] = currentShip_status
+        database["Shipment_Reference_List"] = currentShipList
+        database["Shipment_Arrival_List"] = currentshipArrrival
+        database["Individual_Shipment_Status"] = currentship_I_Status
+        database["Individual_Shipment_Errors"] = currentship_I_errors
+        database["Individual_Shipment_Users"] = currentship_I_users
+        database["Individual_Shipment_Carton_Placed"] = currentship_I_cartons_placed
+        database["Shipment_Status_List"] = currentShip_status
 
         if len(currentShipList) > len(currentShip_status):
             for num in range(len(currentShip_status), len(currentShipList)):
                 currentShip_status.append('Not Arrived')
 
-            reference_list_data["Shipment_Status_List"] = currentShip_status
+            database["Shipment_Status_List"] = currentShip_status
 
-        for count, ref in enumerate(reference_list_data["Shipment_Reference_List"]):
-            Individual_Shipment_Status = reference_list_data["Individual_Shipment_Status"]
-            Individual_Shipment_Users = reference_list_data["Individual_Shipment_Users"]
+        for count, ref in enumerate(database["Shipment_Reference_List"]):
+            Individual_Shipment_Status = database["Individual_Shipment_Status"]
+            Individual_Shipment_Users = database["Individual_Shipment_Users"]
             try:
                 Potential_Status_Line = Individual_Shipment_Status[count]
                 Potential_User_Line = Individual_Shipment_Users[count]
@@ -89,13 +89,13 @@ class ShipmentListFunctions:
             Individual_Shipment_Pallet_Amounts = length_of_chunk * [[1, 0.00, 0000, None, '', '']]
             PutAway_Pallet_Counters = length_of_chunk * [0]
 
-            SAL = reference_list_data["Shipment_Arrival_List"]
-            ISSL = reference_list_data["Individual_Shipment_Status"]
-            ISUL = reference_list_data["Individual_Shipment_Users"]
-            ISEL = reference_list_data["Individual_Shipment_Errors"]
-            ISCPL = reference_list_data["Individual_Shipment_Carton_Placed"]
-            ISPAL = reference_list_data["Individual_Shipment_Pallet_Amount"]
-            PAPCL = reference_list_data["PutAway_Pallet_Counter"]
+            SAL = database["Shipment_Arrival_List"]
+            ISSL = database["Individual_Shipment_Status"]
+            ISUL = database["Individual_Shipment_Users"]
+            ISEL = database["Individual_Shipment_Errors"]
+            ISCPL = database["Individual_Shipment_Carton_Placed"]
+            ISPAL = database["Individual_Shipment_Pallet_Amount"]
+            PAPCL = database["PutAway_Pallet_Counter"]
 
             SAL.append(date_of_shipment_arrival)
             ISSL.append(Individual_Status_Line)
@@ -105,28 +105,28 @@ class ShipmentListFunctions:
             ISPAL.append(Individual_Shipment_Pallet_Amounts)
             PAPCL.append(PutAway_Pallet_Counters)
 
-            reference_list_data["Individual_Shipment_Status"] = ISSL
-            reference_list_data["Individual_Shipment_Users"] = ISUL
-            reference_list_data["Individual_Shipment_Errors"] = ISEL
-            reference_list_data["Individual_Shipment_Carton_Placed"] = ISCPL
-            reference_list_data["Individual_Shipment_Pallet_Amount"] = ISPAL
-            reference_list_data["PutAway_Pallet_Counter"] = PAPCL
-            reference_list_data["Shipment_Arrival_List"] = SAL
+            database["Individual_Shipment_Status"] = ISSL
+            database["Individual_Shipment_Users"] = ISUL
+            database["Individual_Shipment_Errors"] = ISEL
+            database["Individual_Shipment_Carton_Placed"] = ISCPL
+            database["Individual_Shipment_Pallet_Amount"] = ISPAL
+            database["PutAway_Pallet_Counter"] = PAPCL
+            database["Shipment_Arrival_List"] = SAL
 
             for count, box in enumerate(ISCPL):
                 FIRST_COUNT = count
                 for count, Cartons_on_pallet in enumerate(box):
                     if Cartons_on_pallet > 0:
                         Carry_It_Home = 0
-                        Individual_Shipment_Status = reference_list_data["Individual_Shipment_Status"]
+                        Individual_Shipment_Status = database["Individual_Shipment_Status"]
                         Statuses = Individual_Shipment_Status[FIRST_COUNT]
                         if Statuses[count] == 'Receipted':
                             Carry_It_Home = 1
 
                         if Carry_It_Home == 0:
                             Statuses[count] = 'In Progress'
-                            Shipment_Status_List = reference_list_data["Shipment_Status_List"]
+                            Shipment_Status_List = database["Shipment_Status_List"]
                             Shipment_Status_List[FIRST_COUNT] = 'In Progress'
 
-            reference_list_data["Individual_Shipment_Status"] = Individual_Shipment_Status
+            database["Individual_Shipment_Status"] = Individual_Shipment_Status
 

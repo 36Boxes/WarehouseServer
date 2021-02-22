@@ -13,12 +13,13 @@ from email import encoders
 from PicklistGen import Picklist_Functions
 from ChecklistGen import ChecklistFunctions
 from ShipmentGen import ShipmentListFunctions
+from PutAwayListGen import PutAwayListFunctions
 
 path_To_Database = "/Users/joshmanik/PycharmProjects/Panda Server/TWOPAKTESTFILE.xlsx"
 
-# Dictonary that holds all our ordered lists
+# Dictionary that holds all our ordered lists
 
-reference_list_data = {
+database = {
 
 
     "Picking_Reference_List" : [],
@@ -56,8 +57,7 @@ reference_list_data = {
 }
 
 
-global Receipted_DFS
-global PutAway_DFS
+
 PutAway_DFS = None
 Receipted_DFS = None
 Picked_DFS = None
@@ -127,7 +127,6 @@ def refresh_files():
 
         Picking_Groupby_Dates = df.groupby('documentDate')
         Picking_Groupby_Refs = df.groupby('reference')
-
         try:
             Todays_List = Picking_Groupby_Dates.get_group(Todays_Date)
             References_Available = True
@@ -138,21 +137,23 @@ def refresh_files():
             References_Available = False
             print("No References Available at the moment!")
 
-        if References_Available == True:
+        if References_Available is True:
 
             # We wanna create the data for todays Picking References so we call that function
 
-            Picklist_Functions.GenPicks(Todays_List=Todays_List, reference_list_data=reference_list_data, Picking_Groupby_Refs=Picking_Groupby_Refs)
+            Picklist_Functions.GenPicks(Todays_List=Todays_List, database=database, Picking_Groupby_Refs=Picking_Groupby_Refs)
 
-            # We wanna create the data for the checking today also
+            # We wanna check to see if we can create the data for the checking today also
 
-            ChecklistFunctions.create_entire_check_list(Picked_DFS=Picked_DFS, reference_list_data=reference_list_data)
+            ChecklistFunctions.create_entire_check_list(Picked_DFS=Picked_DFS, database=database)
 
             # We wanna create the data for the Shipment lists too
 
-            ShipmentListFunctions.Gen_ShipLists(reference_list_data=reference_list_data, path_To_Database=path_To_Database)
+            ShipmentListFunctions.Gen_ShipLists(database=database, path_To_Database=path_To_Database)
 
-            print(reference_list_data)
+            # We want to lastly now check to see if we can create the put away data
+
+            PutAwayListFunctions.Gen_PutAways(Receipted_DFS=Receipted_DFS, database=database)
 
 
 if __name__ == '__main__':
