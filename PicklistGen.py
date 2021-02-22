@@ -3,7 +3,7 @@
 class Picklist_Functions:
 
 
-    def GenPicks(self, Todays_List, reference_list_data, Picking_Groupby_Refs):
+    def GenPicks(Todays_List, reference_list_data, Picking_Groupby_Refs):
         list_Of_References = dict(Todays_List.groupby(['reference']).apply(list))
 
         temporary_Reflist = []
@@ -42,14 +42,16 @@ class Picklist_Functions:
 
         # Now we need to create the individual logs for each item within the reference
 
-        Individual_Picking_Status, Individual_Picking_Users, Individual_Picking_Errors = self.create_Individual_Picking_Lists(
+        Individual_Picking_Status, Individual_Picking_Users, Individual_Picking_Errors = Picklist_Functions.create_Individual_Picking_Lists(
             Picking_Groupby_Refs=Picking_Groupby_Refs, reference_list_data=reference_list_data)
+
 
         reference_list_data["Individual_Picking_Status"] = Individual_Picking_Status
         reference_list_data["Individual_Picking_Errors"] = Individual_Picking_Errors
         reference_list_data["Individual_Picking_Users"] = Individual_Picking_Users
 
-    def create_Individual_Picking_Lists(self,Picking_Groupby_Refs, reference_list_data):
+
+    def create_Individual_Picking_Lists(Picking_Groupby_Refs, reference_list_data):
         for count, ref in enumerate(reference_list_data["Picking_Reference_List"]):
             reference_chunk = Picking_Groupby_Refs.get_group(ref)
             amount_of_items = len(reference_chunk)

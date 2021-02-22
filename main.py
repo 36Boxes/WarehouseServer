@@ -11,6 +11,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 from PicklistGen import Picklist_Functions
+from ChecklistGen import ChecklistFunctions
 
 path_To_Database = "/Users/joshmanik/PycharmProjects/Panda Server/TWOPAKTESTFILE.xlsx"
 
@@ -116,7 +117,7 @@ def job():
 def refresh_files():
     while True:
         global Todays_Date
-        Todays_Date = datetime.date.today() - timedelta(737)
+        Todays_Date = datetime.date.today() - timedelta(738)
         # 2019-02-15
         xlsx = pd.ExcelFile(path_To_Database)
         df = pd.read_excel(xlsx, sheet_name='Sheet1')
@@ -144,7 +145,7 @@ def refresh_files():
 
             # We wanna create the data for the checking today also
 
-            create_entire_check_list()
+            ChecklistFunctions.create_entire_check_list(Picked_DFS=Picked_DFS, reference_list_data=reference_list_data)
 
             # We wanna create the data for the Shipment lists too
 
@@ -164,7 +165,7 @@ def refresh_files():
                 pass
             else:
                 if len(temporary_ship_list) > len(reference_list_data["Shipment_Reference_List"]):
-                    current_status_list = reference_list_data["Shipment_Arrival_List"]
+                    current_status_list = reference_list_data["Shipment_Status_List"]
                     for num in range(len(reference_list_data["Shipment_Reference_List"]), len(temporary_ship_list) - 1):
                         current_status_list.append('Not Arrived')
 
@@ -204,7 +205,8 @@ def refresh_files():
 
                 reference_list_data["Shipment_Status_List"] = currentShip_status
 
-            for count , ref in reference_list_data["Shipment_Reference_List"]:
+
+            for count , ref in enumerate(reference_list_data["Shipment_Reference_List"]):
                 Individual_Shipment_Status = reference_list_data["Individual_Shipment_Status"]
                 Individual_Shipment_Users = reference_list_data["Individual_Shipment_Users"]
                 try:
@@ -223,9 +225,9 @@ def refresh_files():
 
                     # This is to format the date so it looks nice when we send to the UI of the client
 
-                    T = data_needed.index('T')
-                    a, b = data_needed[:T], data_needed[T + 3:]
-                    a = a[2:]
+                    Trunacted_date = data_needed.index('T')
+                    a, b = data_needed[:Trunacted_date], data_needed[Trunacted_date + 3:]
+                    date_of_shipment_arrival = a[2:]
 
 
                 Individual_Status_Line = length_of_chunk * ['No']
@@ -235,6 +237,7 @@ def refresh_files():
                 Individual_Shipment_Pallet_Amounts = length_of_chunk * [[1, 0.00, 0000, None, '', '']]
                 PutAway_Pallet_Counters = length_of_chunk * [0]
 
+                SAL = reference_list_data["Shipment_Arrival_List"]
                 ISSL = reference_list_data["Individual_Shipment_Status"]
                 ISUL = reference_list_data["Individual_Shipment_Users"]
                 ISEL = reference_list_data["Individual_Shipment_Errors"]
@@ -242,6 +245,7 @@ def refresh_files():
                 ISPAL = reference_list_data["Individual_Shipment_Pallet_Amount"]
                 PAPCL = reference_list_data["PutAway_Pallet_Counter"]
 
+                SAL.append(date_of_shipment_arrival)
                 ISSL.append(Individual_Status_Line)
                 ISUL.append(Individual_User_Line)
                 ISEL.append(Individual_Error_Line)
@@ -255,6 +259,7 @@ def refresh_files():
                 reference_list_data["Individual_Shipment_Carton_Placed"] = ISCPL
                 reference_list_data["Individual_Shipment_Pallet_Amount"] = ISPAL
                 reference_list_data["PutAway_Pallet_Counter"] = PAPCL
+                reference_list_data["Shipment_Arrival_List"] = SAL
 
                 for count, box in enumerate(ISCPL):
                     FIRST_COUNT = count
@@ -272,91 +277,15 @@ def refresh_files():
                                 Shipment_Status_List[FIRST_COUNT] = 'In Progress'
 
                 reference_list_data["Individual_Shipment_Status"] = Individual_Shipment_Status
-                reference_list_data["Shipment_Status_List"] = Shipment_Status_List
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def create_entire_check_list():
-    DF_Created = True
-    if isinstance(Picked_DFS, pd.DataFrame):
-
-        Checking_Groupby_Refs = Picked_DFS.groupby('reference')
-
-        for count, ref in enumerate(reference_list_data["Picking_Reference_List"]):
-            try:
-                reference_group = Checking_Groupby_Refs.get_group(ref)
-                if 'Yes E' in reference_group.picked.values:
-                    picking_statusList = reference_list_data["Picking_Status_List"]
-                    picking_statusList[count] = "Complete Error"
-                else:
-                    picking_statusList = reference_list_data["Picking_Status_List"]
-                    picking_statusList[count] = "Complete"
-            except KeyError as e:
-                pass
-
-            Checking_Groupby_Dates = Picked_DFS.groupby("documentDate")
-            listOfCheckingRefs = dict(Checking_Groupby_Refs.apply(list))
-            updatedCheckList = reference_list_data["Checking_Reference_List"]
-            for ref in listOfCheckingRefs:
-
-                if ref in updatedCheckList:
-                    # We pass as this ref is already handled as its in our list
-                    pass
-                else:
-                    updatedCheckList.append(ref)
-
-            reference_list_data["Checking_Reference_List"] = updatedCheckList
-
-            if len(reference_list_data["Checking_Status_List"]) == len(reference_list_data["Checking_Reference_List"]):
-                pass
-            else:
-                difference = len(reference_list_data["Checking_Reference_List"]) - len(
-                    reference_list_data["Checking_Status_List"])
-                additionToStatus = ['Not Checked'] * difference
-                updatedCheckStatusList = reference_list_data["Checking_Status_List"]
-                updatedCheckStatusList += additionToStatus
-    else:
-        DF_Created = False
-
-    if DF_Created is True:
-        if len(reference_list_data["Individual_Checking_Status"]) == len(
-                reference_list_data["Checking_Reference_List"]):
-            pass
-        else:
-            end = len(reference_list_data["Checking_Reference_List"])
-            start = len(reference_list_data["Individual_Checking_Status"])
-            updatedICheckUser = reference_list_data["Individual_Checking_Users"]
-            updatedICheckError = reference_list_data["Individual_Checking_Errors"]
-            updatedICheckStatus = reference_list_data["Individual_Checking_Status"]
-            for num in range(start, end):
-                checkList = reference_list_data["Checking_Reference_List"]
-                ref_in_question = checkList[num]
-                checking_ref_group = Checking_Groupby_Refs.get_group(ref_in_question)
-                amount_of_items = len(checking_ref_group)
-                AdditionTo_Individual_Checking_Users = [''] * amount_of_items
-                AdditionTo_Individual_Checking_Status = ['No'] * amount_of_items
-                AdditionTo_Individual_Checking_Errors = [None] * amount_of_items
-                updatedICheckUser.append(AdditionTo_Individual_Checking_Users)
-                updatedICheckError.append(AdditionTo_Individual_Checking_Errors)
-                updatedICheckStatus.append(AdditionTo_Individual_Checking_Status)
-
-            reference_list_data["Individual_Checking_Status"] = updatedICheckStatus
-            reference_list_data["Individual_Checking_Errors"] = updatedICheckError
-            reference_list_data["Individual_Checking_Users"] = updatedICheckUser
-
-
+        print(reference_list_data)
+        print(reference_list_data["Shipment_Reference_List"])
+        print(reference_list_data["Shipment_Status_List"])
+        print(reference_list_data["Shipment_Arrival_List"])
+        print(reference_list_data["Individual_Shipment_Status"])
+        print(reference_list_data["Individual_Shipment_Errors"])
+        print(reference_list_data["Individual_Shipment_Users"])
+        print(reference_list_data["Individual_Shipment_Carton_Placed"])
+        print(reference_list_data["Individual_Shipment_Pallet_Amount"])
 
 
 if __name__ == '__main__':
