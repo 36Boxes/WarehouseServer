@@ -5,15 +5,10 @@ import datetime
 from datetime import timedelta
 import pickle
 from threading import Thread
-import sentry_sdk
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email import encoders
-from PicklistGen import Picklist_Functions
-from ChecklistGen import ChecklistFunctions
-from ShipmentGen import ShipmentListFunctions
-from PutAwayListGen import PutAwayListFunctions
+from Refresh_Files.PicklistGen import Picklist_Functions
+from Refresh_Files.ChecklistGen import ChecklistFunctions
+from Refresh_Files.ShipmentGen import ShipmentListFunctions
+from Refresh_Files.PutAwayListGen import PutAwayListFunctions
 
 path_To_Database = "/Users/joshmanik/PycharmProjects/Panda Server/TWOPAKTESTFILE.xlsx"
 
@@ -78,17 +73,50 @@ class Twisted_Echo_Server(Protocol):
     def handle_message(self, msg):
         msg = self.decode_message(msg=msg)
 
+        # We define our lists here to save us typing them out hundreds of times
+
+        Picking_Reference_List = database["Picking_Reference_List"]
+        Picking_Status_List = database["Picking_Status_List"]
+        Individual_Picking_Errors = database["Individual_Picking_Errors"]
+        Individual_Picking_Status = database["Individual_Picking_Status"]
+        Individual_Picking_Users = database["Individual_Picking_Users"]
+
+
+        if len(msg) == 1:
+
+
+
 
 
 
     def decode_message(self, msg):
-
         try:
             msg = msg.decode('utf-8')
         except UnicodeDecodeError as e:
             msg = pickle.loads(msg)
 
         return msg
+
+    def Handle_message_length_One(self, database, msg):
+        msg = ", ".join(msg)
+        if msg == 'Update':
+            if database["Picking_Reference_List"] == []:
+                Tickback = [[1]]
+                Tickback = pickle.dumps(Tickback, protocol=2)
+                return Tickback
+            Date_To_Search = DATE_MON.strftime("%d-%m-%Y")
+            Tickback = [
+                Date_To_Search, , Picking_Status_List, Authorisation_List,
+                Checking_Status_List, Checking_Reference_List, Shipment_Status_List, Shipment_Reference_List,
+                Shipment_Arrival_List, PutAway_Reference_List, PutAway_Status_List
+
+            ]
+            Tickback = pickle.dumps(Tickback, protocol=2)
+            return Tickback
+
+        Tickback = [[1]]
+        Tickback = pickle.dumps(Tickback, protocol=2)
+        return Tickback
 
 
 
