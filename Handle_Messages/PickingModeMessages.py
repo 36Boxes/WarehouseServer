@@ -1,9 +1,9 @@
 import pickle
 
 
-class HandleMessage2:
+class PickingModeMessages:
 
-    def BootupPickingMode(Picking_Reference_List, Picking_Status_List, Authorisation_List, Start_Date):
+    def BootupPickingMode(self,Picking_Reference_List, Picking_Status_List, Authorisation_List, Start_Date):
 
         No_Refs_Today_Msg = [[1], [2]]
         No_Refs_Today_Msg = pickle.dumps(No_Refs_Today_Msg, protocol=2)

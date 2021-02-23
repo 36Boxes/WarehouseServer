@@ -3,7 +3,7 @@
 class Picklist_Functions:
 
 
-    def GenPicks(Todays_List, database, Picking_Groupby_Refs):
+    def GenPicks(self, Todays_List, database, Picking_Groupby_Refs):
         list_Of_References = dict(Todays_List.groupby(['reference']).apply(list))
 
         temporary_Reflist = []

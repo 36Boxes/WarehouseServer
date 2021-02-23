@@ -4,7 +4,7 @@ import pandas as pd
 
 class ShipmentListFunctions:
 
-    def Gen_ShipLists(database, path_To_Database):
+    def Gen_ShipLists(self, database, path_To_Database):
 
         xlsx = pd.ExcelFile(path_To_Database)
         df = pd.read_excel(xlsx, sheet_name='Sheet2')

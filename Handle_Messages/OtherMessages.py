@@ -1,9 +1,9 @@
 import pickle
 
 
-class HandleMessage1:
+class OtherMiscMessages:
 
-    def Message_One(msg, Picking_Reference_List,Picking_Status_List, Checking_Status_List,
+    def Updater_Message(self, msg, Picking_Reference_List,Picking_Status_List, Checking_Status_List,
                     Checking_Reference_List, Shipment_Status_List, Shipment_Reference_List, Shipment_Arrival_List,
                     PutAway_Reference_List, PutAway_Status_List, Todays_Date):
         msg = ", ".join(msg)

@@ -3,7 +3,7 @@ import pandas as pd
 
 class ChecklistFunctions:
 
-    def create_entire_check_list(Picked_DFS, database):
+    def GenChecklist(self, Picked_DFS, database):
         DF_Created = True
         if isinstance(Picked_DFS, pd.DataFrame):
 

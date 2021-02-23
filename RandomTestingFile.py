@@ -9,10 +9,10 @@ from Refresh_Files.PicklistGen import Picklist_Functions
 from Refresh_Files.ChecklistGen import ChecklistFunctions
 from Refresh_Files.ShipmentGen import ShipmentListFunctions
 from Refresh_Files.PutAwayListGen import PutAwayListFunctions
-from Handle_Messages.Message_Length_1 import HandleMessage1
-from Handle_Messages.PickingModeBootUp_len_2 import HandleMessage2
-from Handle_Messages.CheckingModeBootUp_len_3 import HandleMessage3
-from Handle_Messages.ShipmentModeBootUp_len_4 import HandleMessage4
+from Handle_Messages.OtherMessages import HandleMessage1
+from Handle_Messages.PickingModeMessages import HandleMessage2
+from Handle_Messages.CheckingModeMessages import HandleMessage3
+from Handle_Messages.ShipmentModeMessages import HandleMessage4
 
 path_To_Database = "/Users/joshmanik/PycharmProjects/Panda Server/TWOPAKTESTFILE.xlsx"
 

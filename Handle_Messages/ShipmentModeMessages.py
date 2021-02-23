@@ -1,9 +1,9 @@
 import pickle
 
 
-class HandleMessage4:
+class ShipmentModeMessages:
 
-    def Bootup_Shipment_Mode(Shipment_Reference_List, Shipment_Status_List, Shipment_Arrival_List):
+    def Bootup_Shipment_Mode(self, Shipment_Reference_List, Shipment_Status_List, Shipment_Arrival_List):
         print("Received Shipment Mode Bootup Message, Responding With Shipment Lists.")
         Preset_Message = [[1], [2], [3], [4], [5], [6], [7]]
         Addition_to_Message = [[Shipment_Reference_List], [Shipment_Status_List], [Shipment_Arrival_List]]

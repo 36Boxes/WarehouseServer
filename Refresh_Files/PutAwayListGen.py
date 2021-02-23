@@ -3,7 +3,7 @@ import pandas as pd
 class PutAwayListFunctions:
     
     
-    def Gen_PutAways(Receipted_DFS, database):
+    def Gen_PutAways(self, Receipted_DFS, database):
         if isinstance(Receipted_DFS, pd.DataFrame) is False:
             pass
         else:

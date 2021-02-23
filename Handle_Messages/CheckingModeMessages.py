@@ -1,9 +1,9 @@
 import pickle
 import pandas as pd
 
-class HandleMessage3:
+class CheckingModeMessages:
 
-    def BootupCheckingMode(Picked_DFS, Checking_Reference_List, Checking_Status_List):
+    def BootupCheckingMode(self, Picked_DFS, Checking_Reference_List, Checking_Status_List):
 
         No_Refs_Today_Msg = [[1], [2]]
         No_Refs_Today_Msg = pickle.dumps(No_Refs_Today_Msg, protocol=2)

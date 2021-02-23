@@ -9,14 +9,15 @@ from Refresh_Files.PicklistGen import Picklist_Functions
 from Refresh_Files.ChecklistGen import ChecklistFunctions
 from Refresh_Files.ShipmentGen import ShipmentListFunctions
 from Refresh_Files.PutAwayListGen import PutAwayListFunctions
-from Handle_Messages.Message_Length_1 import HandleMessage1
-from Handle_Messages.PickingModeBootUp_len_2 import HandleMessage2
-from Handle_Messages.CheckingModeBootUp_len_3 import HandleMessage3
-from Handle_Messages.ShipmentModeBootUp_len_4 import HandleMessage4
+from Handle_Messages.OtherMessages import OtherMiscMessages
+from Handle_Messages.PickingModeMessages import PickingModeMessages
+from Handle_Messages.CheckingModeMessages import CheckingModeMessages
+from Handle_Messages.ShipmentModeMessages import ShipmentModeMessages
+from Handle_Messages.PutAwayModeMessages import PutAwayModeMessages
 
 path_To_Database = "/Users/joshmanik/PycharmProjects/Panda Server/TWOPAKTESTFILE.xlsx"
 
-Start_Date = datetime.date.today() -  timedelta(739)
+Start_Date = datetime.date.today() - timedelta(739)
 
 # Dictionary that holds all our ordered lists
 
@@ -66,12 +67,6 @@ Picked_DFS = None
 # Here we have our actual server side code,
 # how it works is it identifies the length of the message and uses that length
 # to specify which message it then should return
-
-
-long_line = '------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------'
-# database = r"/Users/joshmanik/PycharmProjects/Panda Server/TWOPAKTESTFILE.xlsx"
-print(long_line)
-print('Im Ready')
 
 
 class Echo(Protocol):
@@ -125,7 +120,7 @@ class Echo(Protocol):
             PutAway_Pallet_Counter = database["PutAway_Pallet_Counter"]
 
             if len(msg) == 1:
-                return HandleMessage1.Message_One(
+                return OtherMiscMessages().Updater_Message(
                     msg=msg,
                     Picking_Reference_List=Picking_Reference_List,
                     Picking_Status_List=Picking_Status_List,
@@ -140,7 +135,7 @@ class Echo(Protocol):
                 )
 
             if len(msg) == 2:
-                return HandleMessage2.BootupPickingMode(
+                return PickingModeMessages().BootupPickingMode(
                     Picking_Reference_List=Picking_Reference_List,
                     Picking_Status_List=Picking_Status_List,
                     Authorisation_List=Authorisation_List,
@@ -148,11 +143,27 @@ class Echo(Protocol):
                 )
 
             if len(msg) == 3:
-                return HandleMessage3.BootupCheckingMode(
+                return CheckingModeMessages().BootupCheckingMode(
                     Picked_DFS=Picked_DFS,
                     Checking_Reference_List=Checking_Reference_List,
                     Checking_Status_List=Checking_Status_List
                 )
+
+            if len(msg) == 4:
+                return ShipmentModeMessages().Bootup_Shipment_Mode(
+                    Shipment_Reference_List=Shipment_Reference_List,
+                    Shipment_Arrival_List=Shipment_Arrival_List,
+                    Shipment_Status_List=Shipment_Status_List
+                )
+
+            if len(msg) == 5:
+                return PutAwayModeMessages().BootUp_PutAwayMode(
+                    PutAway_Reference_List=PutAway_Reference_List,
+                    PutAway_Status_List=PutAway_Status_List
+                )
+
+            if len(msg) == 6:
+                return
 
             print("responded: {}\n".format(msg))
             return msg.encode('utf-8')
@@ -196,19 +207,25 @@ def RefreshFiles():
 
             # We wanna create the data for todays Picking References so we call that function
 
-            Picklist_Functions.GenPicks(Todays_List=Todays_List, database=database, Picking_Groupby_Refs=Picking_Groupby_Refs)
+            Picklist_Functions().GenPicks(Todays_List=Todays_List,
+                                          database=database,
+                                          Picking_Groupby_Refs=Picking_Groupby_Refs)
 
             # We wanna check to see if we can create the data for the checking today also
 
-            ChecklistFunctions.create_entire_check_list(Picked_DFS=Picked_DFS, database=database)
+            ChecklistFunctions().GenChecklist(Picked_DFS=Picked_DFS,
+                                              database=database)
 
             # We wanna create the data for the Shipment lists too
 
-            ShipmentListFunctions.Gen_ShipLists(database=database, path_To_Database=path_To_Database)
+            ShipmentListFunctions().Gen_ShipLists(database=database,
+                                                  path_To_Database=path_To_Database)
 
             # We want to lastly now check to see if we can create the put away data
 
-            PutAwayListFunctions.Gen_PutAways(Receipted_DFS=Receipted_DFS, database=database)
+            PutAwayListFunctions().Gen_PutAways(Receipted_DFS=Receipted_DFS,
+                                                database=database)
+
 
 
 def Check_to_see_if_day_has_changed(Start_Date):
