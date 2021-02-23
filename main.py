@@ -253,6 +253,35 @@ class Echo(Protocol):
                     Individual_Picking_Users=Individual_Picking_Users
                 )
 
+            if len(msg) == 15:
+                return CheckingModeMessages().QuickMarkAsChecked(
+                    msg=msg,
+                    Checking_Status_List=Checking_Status_List,
+                    Individual_Checking_Status=Individual_Checking_Status,
+                    Individual_Checking_Users=Individual_Checking_Users
+                )
+
+            if len(msg) == 16:
+                return CheckingModeMessages().Mark_Item_As_Checked(
+                    msg=msg,
+                    Checking_Groupby_Refs=Checking_Groupby_Refs,
+                    Checking_Reference_List=Checking_Reference_List,
+                    Checking_Status_List=Checking_Status_List,
+                    Individual_Checking_Errors=Individual_Checking_Errors,
+                    Individual_Checking_Users=Individual_Checking_Users,
+                    Individual_Checking_Status=Individual_Checking_Status
+                )
+
+            if len(msg) == 17:
+                return CheckingModeMessages().LogError(
+                    msg=msg,
+                    Checking_Reference_List=Checking_Reference_List,
+                    Checking_Groupby_Refs=Checking_Groupby_Refs,
+                    Individual_Checking_Errors=Individual_Checking_Errors,
+                    Individual_Checking_Users=Individual_Checking_Users,
+                    Individual_Checking_Status=Individual_Checking_Status,
+                    Checking_Status_List=Checking_Status_List
+                )
 
             print("responded: {}\n".format(msg))
             return msg.encode('utf-8')
