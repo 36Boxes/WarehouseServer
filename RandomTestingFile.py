@@ -67,99 +67,88 @@ Picked_DFS = None
 # how it works is it identifies the length of the message and uses that length
 # to specify which message it then should return
 
-
-long_line = '------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------'
-# database = r"/Users/joshmanik/PycharmProjects/Panda Server/TWOPAKTESTFILE.xlsx"
-print(long_line)
-print('Im Ready')
-
-
 class Echo(Protocol):
 
-    def dataReceived(self, data):
+
+    def data_received(self, data):
         """
             As soon as any data is received, handle the message and write it back.
             """
-        response = self.handle_message(data)
+        print("got")
+        response = self.handle_Message(data)
         self.transport.write(response)
 
     def handle_message(self, msg):
-
         try:
             msg = msg.decode('utf-8')
         except UnicodeDecodeError as e:
             msg = pickle.loads(msg)
-        try:
 
-            # We define our lists here to save us typing them out hundreds of times
+        # We define our lists here to save us typing them out hundreds of times
 
-            Picking_Reference_List = database["Picking_Reference_List"]
-            Picking_Status_List = database["Picking_Status_List"]
+        Picking_Reference_List = database["Picking_Reference_List"]
+        Picking_Status_List = database["Picking_Status_List"]
 
-            # This was a feature that was never implemented so ive just taken out the data
-            # However the app still needs to send an authorisation list so it still has to be an object
-            Authorisation_List = ['']
+        # This was a feature that was never implemented so ive just taken out the data
+        # However the app still needs to send an authorisation list so it still has to be an object
+        Authorisation_List = ['']
 
-            Individual_Picking_Errors = database["Individual_Picking_Errors"]
-            Individual_Picking_Status = database["Individual_Picking_Status"]
-            Individual_Picking_Users = database["Individual_Picking_Users"]
-            Checking_Reference_List = database["Checking_Reference_List"]
-            Checking_Status_List = database["Checking_Status_List"]
-            Individual_Checking_Errors = database["Individual_Checking_Errors"]
-            Individual_Checking_Status = database["Individual_Checking_Status"]
-            Individual_Checking_Users = database["Individual_Checking_Users"]
-            Shipment_Reference_List = database["Shipment_Reference_List"]
-            Shipment_Status_List = database["Shipment_Status_List"]
-            Shipment_Arrival_List = database["Shipment_Arrival_List"]
-            Individual_Shipment_Errors = database["Individual_Shipment_Errors"]
-            Individual_Shipment_Status = database["Individual_Shipment_Status"]
-            Individual_Shipment_Users = database["Individual_Shipment_Users"]
-            Individual_Shipment_Carton_Placed = database["Individual_Shipment_Carton_Placed"]
-            Individual_Shipment_Pallet_Amount = database["Individual_Shipment_Pallet_Amount"]
-            PutAway_Reference_List = database["PutAway_Reference_List"]
-            PutAway_Status_List = database["PutAway_Status_List"]
-            Individual_PutAway_Errors = database["Individual_PutAway_Errors"]
-            Individual_PutAway_Status = database["Individual_PutAway_Status"]
-            Individual_PutAway_Users = database["Individual_PutAway_Users"]
-            Individual_PutAway_Location = database["Individual_PutAway_Location"]
-            PutAway_Pallet_Counter = database["PutAway_Pallet_Counter"]
 
-            if len(msg) == 1:
-                return HandleMessage1.Message_One(
-                    msg=msg,
-                    Picking_Reference_List=Picking_Reference_List,
-                    Picking_Status_List=Picking_Status_List,
-                    Checking_Reference_List=Checking_Reference_List,
-                    Checking_Status_List=Checking_Status_List,
-                    Shipment_Reference_List=Shipment_Reference_List,
-                    Shipment_Status_List=Shipment_Status_List,
-                    Shipment_Arrival_List=Shipment_Arrival_List,
-                    PutAway_Reference_List=PutAway_Reference_List,
-                    PutAway_Status_List=PutAway_Status_List,
-                    Todays_Date=Start_Date
-                )
+        Individual_Picking_Errors = database["Individual_Picking_Errors"]
+        Individual_Picking_Status = database["Individual_Picking_Status"]
+        Individual_Picking_Users = database["Individual_Picking_Users"]
+        Checking_Reference_List = database["Checking_Reference_List"]
+        Checking_Status_List = database["Checking_Status_List"]
+        Individual_Checking_Errors = database["Individual_Checking_Errors"]
+        Individual_Checking_Status = database["Individual_Checking_Status"]
+        Individual_Checking_Users = database["Individual_Checking_Users"]
+        Shipment_Reference_List = database["Shipment_Reference_List"]
+        Shipment_Status_List = database["Shipment_Status_List"]
+        Shipment_Arrival_List = database["Shipment_Arrival_List"]
+        Individual_Shipment_Errors = database["Individual_Shipment_Errors"]
+        Individual_Shipment_Status = database["Individual_Shipment_Status"]
+        Individual_Shipment_Users = database["Individual_Shipment_Users"]
+        Individual_Shipment_Carton_Placed = database["Individual_Shipment_Carton_Placed"]
+        Individual_Shipment_Pallet_Amount = database["Individual_Shipment_Pallet_Amount"]
+        PutAway_Reference_List = database["PutAway_Reference_List"]
+        PutAway_Status_List = database["PutAway_Status_List"]
+        Individual_PutAway_Errors = database["Individual_PutAway_Errors"]
+        Individual_PutAway_Status = database["Individual_PutAway_Status"]
+        Individual_PutAway_Users = database["Individual_PutAway_Users"]
+        Individual_PutAway_Location = database["Individual_PutAway_Location"]
+        PutAway_Pallet_Counter = database["PutAway_Pallet_Counter"]
 
-            if len(msg) == 2:
-                return HandleMessage2.BootupPickingMode(
-                    Picking_Reference_List=Picking_Reference_List,
-                    Picking_Status_List=Picking_Status_List,
-                    Authorisation_List=Authorisation_List,
-                    Start_Date=Start_Date
-                )
 
-            if len(msg) == 3:
-                return HandleMessage3.BootupCheckingMode(
-                    Picked_DFS=Picked_DFS,
-                    Checking_Reference_List=Checking_Reference_List,
-                    Checking_Status_List=Checking_Status_List
-                )
+        if len(msg) == 1:
+            return HandleMessage1.Message_One(
+                msg=msg,
+                Picking_Reference_List= Picking_Reference_List,
+                Picking_Status_List= Picking_Status_List,
+                Checking_Reference_List = Checking_Reference_List,
+                Checking_Status_List= Checking_Status_List,
+                Shipment_Reference_List= Shipment_Reference_List,
+                Shipment_Status_List= Shipment_Status_List,
+                Shipment_Arrival_List= Shipment_Arrival_List,
+                PutAway_Reference_List= PutAway_Reference_List,
+                PutAway_Status_List= PutAway_Status_List,
+                Todays_Date=Start_Date
+            )
 
-            print("responded: {}\n".format(msg))
-            return msg.encode('utf-8')
-        except ValueError as e:
-            print(e)
-            print(msg)
-            print('Im Outside The Try Function, message must not be accounted for!')
+        if len(msg) == 2:
+            return HandleMessage2.BootupPickingMode(
+                Picking_Reference_List= Picking_Reference_List,
+                Picking_Status_List= Picking_Status_List,
+                Authorisation_List= Authorisation_List,
+                Start_Date= Start_Date
+            )
+
+        if len(msg) == 3:
+            return HandleMessage3.BootupCheckingMode(
+                Picked_DFS = Picked_DFS,
+                Checking_Reference_List = Checking_Reference_List,
+                Checking_Status_List = Checking_Status_List
+            )
+
 
 
 def main():
@@ -169,7 +158,7 @@ def main():
     reactor.run()
 
 
-def RefreshFiles():
+def refresh_files():
     while True:
         global Start_Date
         # 2019-02-15
@@ -223,11 +212,8 @@ def Check_to_see_if_day_has_changed(Start_Date):
 
     return Start_Date
 
-
-
-
 if __name__ == '__main__':
-    refreshit = Thread(target=RefreshFiles)
+    refreshit = Thread(target=refresh_files())
     refreshit.start()
     main()
     refreshit.join()
