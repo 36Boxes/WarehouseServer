@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="154ee3e2-2cd6-4433-9163-53723130712c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Handle_Messages/PutAwayModeMessages.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Handle_Messages/CheckingModeBootUp_len_3.py" beforeDir="false" afterPath="$PROJECT_DIR$/Handle_Messages/CheckingModeMessages.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Handle_Messages/Message_Length_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Handle_Messages/OtherMessages.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Handle_Messages/PickingModeBootUp_len_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Handle_Messages/PickingModeMessages.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Handle_Messages/ShipmentModeBootUp_len_4.py" beforeDir="false" afterPath="$PROJECT_DIR$/Handle_Messages/ShipmentModeMessages.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RandomTestingFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/RandomTestingFile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Refresh_Files/ChecklistGen.py" beforeDir="false" afterPath="$PROJECT_DIR$/Refresh_Files/ChecklistGen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Refresh_Files/PicklistGen.py" beforeDir="false" afterPath="$PROJECT_DIR$/Refresh_Files/PicklistGen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Refresh_Files/PutAwayListGen.py" beforeDir="false" afterPath="$PROJECT_DIR$/Refresh_Files/PutAwayListGen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Refresh_Files/ShipmentGen.py" beforeDir="false" afterPath="$PROJECT_DIR$/Refresh_Files/ShipmentGen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Handle_Messages/CheckingModeMessages.py" beforeDir="false" afterPath="$PROJECT_DIR$/Handle_Messages/CheckingModeMessages.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Handle_Messages/PickingModeMessages.py" beforeDir="false" afterPath="$PROJECT_DIR$/Handle_Messages/PickingModeMessages.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,28 +36,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="121" column="42" selection-start-line="121" selection-start-column="42" selection-end-line="121" selection-end-column="42" />
+            <state relative-caret-position="443">
+              <caret line="228" selection-start-line="228" selection-end-line="228" />
               <folding>
                 <element signature="e#0#55#0" expanded="true" />
+                <element signature="e#11980#12064#0" />
+                <element signature="e#13719#13948#0" />
+                <element signature="e#27962#28055#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Handle_Messages/PutAwayModeMessages.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Handle_Messages/CheckingModeMessages.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="33" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
+            <state relative-caret-position="127">
+              <caret line="33" column="29" lean-forward="true" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -75,19 +64,21 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Handle_Messages/ShipmentModeMessages.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="35" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Handle_Messages/PickingModeMessages.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
+            <state relative-caret-position="270">
+              <caret line="361" column="194" selection-start-line="361" selection-start-column="194" selection-end-line="361" selection-end-column="194" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#75#792#0" />
+                <element signature="e#929#1276#0" />
+                <element signature="e#1490#4152#0" />
+                <element signature="e#4204#9112#0" />
+                <element signature="e#9253#11325#0" />
+                <element signature="e#11469#13860#0" />
+                <element signature="e#13621#13860#0" />
+                <element signature="e#14062#18760#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -122,8 +113,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Refresh_Files/ChecklistGen.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="39" selection-start-line="5" selection-start-column="39" selection-end-line="5" selection-end-column="39" />
+            <state relative-caret-position="53">
+              <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="67" />
             </state>
           </provider>
         </entry>
@@ -150,9 +141,11 @@
     <findStrings>
       <find>import pandas as pd</find>
       <find>reference_list_data</find>
+      <find>ref_selectec</find>
     </findStrings>
     <replaceStrings>
       <replace>database</replace>
+      <replace>ref_Index_number</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -173,15 +166,16 @@
         <option value="$PROJECT_DIR$/maintest.py" />
         <option value="$PROJECT_DIR$/Handle_Messages/PutAwayBootUp_len_5.py" />
         <option value="$PROJECT_DIR$/Handle_Messages/ShipmentModeBootUp_len_4.py" />
-        <option value="$PROJECT_DIR$/Handle_Messages/PickingModeMessages.py" />
         <option value="$PROJECT_DIR$/Refresh_Files/PicklistGen.py" />
         <option value="$PROJECT_DIR$/Handle_Messages/ShipmentModeMessages.py" />
-        <option value="$PROJECT_DIR$/Handle_Messages/CheckingModeMessages.py" />
-        <option value="$PROJECT_DIR$/Refresh_Files/ChecklistGen.py" />
         <option value="$PROJECT_DIR$/Refresh_Files/PutAwayListGen.py" />
         <option value="$PROJECT_DIR$/Refresh_Files/ShipmentGen.py" />
         <option value="$PROJECT_DIR$/Handle_Messages/OtherMessages.py" />
+        <option value="$PROJECT_DIR$/Refresh_Files/ChecklistGen.py" />
+        <option value="$PROJECT_DIR$/Handle_Messages/PutAwayModeMessages.py" />
+        <option value="$PROJECT_DIR$/Handle_Messages/PickingModeMessages.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/Handle_Messages/CheckingModeMessages.py" />
       </list>
     </option>
   </component>
@@ -288,12 +282,12 @@
       <option name="presentableId" value="Default" />
       <updated>1613910544415</updated>
       <workItem from="1613910545666" duration="18603000" />
-      <workItem from="1613992567023" duration="21575000" />
+      <workItem from="1613992567023" duration="29339000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40178000" />
+    <option name="totallyTimeSpent" value="47942000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="739" y="25" width="939" height="966" extended-state="0" />
@@ -304,7 +298,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.27995393" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.27995393" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39976957" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -313,7 +307,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32949308" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.29081634" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.29032257" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -337,40 +331,6 @@
           <folding>
             <element signature="e#0#55#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Handle_Messages/CheckingModeMessages.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="33" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Handle_Messages/PickingModeMessages.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Handle_Messages/PutAwayModeMessages.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Handle_Messages/ShipmentModeMessages.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="35" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Refresh_Files/ChecklistGen.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="39" selection-start-line="5" selection-start-column="39" selection-end-line="5" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -402,12 +362,64 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Handle_Messages/PutAwayModeMessages.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="76" selection-start-line="5" selection-start-column="76" selection-end-line="5" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Handle_Messages/ShipmentModeMessages.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="8" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Refresh_Files/ChecklistGen.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="53">
+          <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="121" column="42" selection-start-line="121" selection-start-column="42" selection-end-line="121" selection-end-column="42" />
+        <state relative-caret-position="443">
+          <caret line="228" selection-start-line="228" selection-end-line="228" />
           <folding>
             <element signature="e#0#55#0" expanded="true" />
+            <element signature="e#11980#12064#0" />
+            <element signature="e#13719#13948#0" />
+            <element signature="e#27962#28055#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Handle_Messages/PickingModeMessages.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="361" column="194" selection-start-line="361" selection-start-column="194" selection-end-line="361" selection-end-column="194" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#75#792#0" />
+            <element signature="e#929#1276#0" />
+            <element signature="e#1490#4152#0" />
+            <element signature="e#4204#9112#0" />
+            <element signature="e#9253#11325#0" />
+            <element signature="e#11469#13860#0" />
+            <element signature="e#13621#13860#0" />
+            <element signature="e#14062#18760#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Handle_Messages/CheckingModeMessages.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="33" column="29" lean-forward="true" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>

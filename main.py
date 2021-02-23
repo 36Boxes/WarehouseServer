@@ -15,6 +15,7 @@ from Handle_Messages.CheckingModeMessages import CheckingModeMessages
 from Handle_Messages.ShipmentModeMessages import ShipmentModeMessages
 from Handle_Messages.PutAwayModeMessages import PutAwayModeMessages
 
+
 path_To_Database = "/Users/joshmanik/PycharmProjects/Panda Server/TWOPAKTESTFILE.xlsx"
 
 Start_Date = datetime.date.today() - timedelta(739)
@@ -80,6 +81,9 @@ class Echo(Protocol):
 
     def handle_message(self, msg):
 
+        global Picked_Checked_DFS
+
+
         try:
             msg = msg.decode('utf-8')
         except UnicodeDecodeError as e:
@@ -118,6 +122,11 @@ class Echo(Protocol):
             Individual_PutAway_Users = database["Individual_PutAway_Users"]
             Individual_PutAway_Location = database["Individual_PutAway_Location"]
             PutAway_Pallet_Counter = database["PutAway_Pallet_Counter"]
+
+            Checking_Groupby_Refs = Picked_DFS.groupby('reference')
+
+            # We decipher which message we want to send by checking
+            # the length of the message received
 
             if len(msg) == 1:
                 return OtherMiscMessages().Updater_Message(
@@ -163,7 +172,87 @@ class Echo(Protocol):
                 )
 
             if len(msg) == 6:
-                return
+                return PickingModeMessages().PickingModeRefresh(
+                    Authorisation_List=Authorisation_List,
+                    Picking_Status_List=Picking_Status_List,
+                    Picking_Reference_List=Picking_Reference_List
+                )
+
+            if len(msg) == 7:
+                return PickingModeMessages().PickingModeViewDetailedReference(
+                    msg=msg,
+                    Picking_Groupby_Refs=Picking_Groupby_Refs,
+                    Picking_Reference_List=Picking_Reference_List,
+                    Individual_Picking_Status=Individual_Picking_Status
+                )
+
+            if len(msg) == 8:
+                return PickingModeMessages().See_Individual_Picks(
+                    msg=msg,
+                    Todays_Date=Start_Date,
+                    Picking_Reference_List=Picking_Reference_List,
+                    Picking_Groupby_Dates=Picking_Groupby_Dates,
+                    Individual_Picking_Status=Individual_Picking_Status
+                )
+
+            if len(msg) == 9:
+                return PickingModeMessages().Quick_MarkAs_Picked(
+                    msg=msg,
+                    Picked_DFS=Picked_DFS,
+                    Picking_Reference_List=Picking_Reference_List,
+                    Picking_Status_List=Picking_Status_List,
+                    Individual_Picking_Status=Individual_Picking_Status,
+                    Individual_Picking_Users=Individual_Picking_Users
+                )
+
+            if len(msg) == 10:
+                return PickingModeMessages().MarkItemAsPicked(
+                    msg=msg,
+                    Picked_DFS=Picked_DFS,
+                    Picking_Reference_List=Picking_Reference_List,
+                    Picking_Status_List=Picking_Status_List,
+                    Individual_Picking_Status=Individual_Picking_Status,
+                    Individual_Picking_Errors=Individual_Picking_Errors,
+                    Individual_Picking_Users=Individual_Picking_Users
+                )
+
+            if len(msg) == 11:
+                return PickingModeMessages().MarkListAsPicked(
+                    msg=msg,
+                    Picked_DFS=Picked_DFS,
+                    Picking_Status_List=Picking_Status_List,
+                    Picking_Groupby_Refs=Picking_Groupby_Refs,
+                    Checking_Groupby_Refs=Checking_Groupby_Refs,
+                    Individual_Picking_Users=Individual_Picking_Users,
+                    Individual_Picking_Errors=Individual_Picking_Errors,
+                    Individual_Picking_Status=Individual_Picking_Status
+                )
+
+            if len(msg) == 12:
+                return CheckingModeMessages().CheckingModeViewDetailedReference(
+                    msg=msg,
+                    Picked_DFS=Picked_DFS,
+                    Picking_Reference_List=Picking_Reference_List,
+                    Checking_Reference_List=Checking_Reference_List,
+                    Individual_Picking_Users=Individual_Picking_Users,
+                    Individual_Checking_Status=Individual_Checking_Status,
+                )
+
+            if len(msg) == 13:
+                return CheckingModeMessages().SendEmailToOffice(
+                    Picked_Checked_DFS=Picked_Checked_DFS
+                )
+
+            if len(msg) == 14:
+                return CheckingModeMessages().CheckingModeViewIndividualItem(
+                    msg=msg,
+                    Checking_Groupby_Refs=Checking_Groupby_Refs,
+                    Checking_Reference_List=Checking_Reference_List,
+                    Picking_Reference_List=Picking_Reference_List,
+                    Individual_Picking_Errors=Individual_Picking_Errors,
+                    Individual_Picking_Users=Individual_Picking_Users
+                )
+
 
             print("responded: {}\n".format(msg))
             return msg.encode('utf-8')
@@ -183,6 +272,8 @@ def main():
 def RefreshFiles():
     while True:
         global Start_Date
+        global Picking_Groupby_Refs
+        global Picking_Groupby_Dates
         # 2019-02-15
         # Start_Date = Check_to_see_if_day_has_changed(Start_Date)
 
@@ -193,6 +284,7 @@ def RefreshFiles():
 
         Picking_Groupby_Dates = df.groupby('documentDate')
         Picking_Groupby_Refs = df.groupby('reference')
+
         try:
             Todays_List = Picking_Groupby_Dates.get_group(Start_Date)
             References_Available = True
@@ -225,7 +317,6 @@ def RefreshFiles():
 
             PutAwayListFunctions().Gen_PutAways(Receipted_DFS=Receipted_DFS,
                                                 database=database)
-
 
 
 def Check_to_see_if_day_has_changed(Start_Date):
