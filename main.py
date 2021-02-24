@@ -283,6 +283,8 @@ class Echo(Protocol):
                     Checking_Status_List=Checking_Status_List
                 )
 
+            if len(msg) == 18:
+
             print("responded: {}\n".format(msg))
             return msg.encode('utf-8')
         except ValueError as e:
