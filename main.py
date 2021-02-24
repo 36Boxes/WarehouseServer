@@ -18,7 +18,7 @@ from Handle_Messages.PutAwayModeMessages import PutAwayModeMessages
 
 path_To_Database = "/Users/joshmanik/PycharmProjects/Panda Server/TWOPAKTESTFILE.xlsx"
 
-Start_Date = datetime.date.today() - timedelta(739)
+Start_Date = datetime.date.today() - timedelta(740)
 
 # Dictionary that holds all our ordered lists
 
@@ -59,7 +59,8 @@ database = {
 
 }
 
-
+global Pallet_Tag_Number
+Pallet_Tag_Number = 0
 
 PutAway_DFS = None
 Receipted_DFS = None
@@ -122,8 +123,12 @@ class Echo(Protocol):
             Individual_PutAway_Users = database["Individual_PutAway_Users"]
             Individual_PutAway_Location = database["Individual_PutAway_Location"]
             PutAway_Pallet_Counter = database["PutAway_Pallet_Counter"]
+            try:
+                Checking_Groupby_Refs = Picked_DFS.groupby('reference')
+                PutAway_Groupby_Refs = PutAwayListFunctions.PutAway_Groupby_Refs
+            except AttributeError:
+                pass
 
-            Checking_Groupby_Refs = Picked_DFS.groupby('reference')
 
             # We decipher which message we want to send by checking
             # the length of the message received
@@ -284,6 +289,173 @@ class Echo(Protocol):
                 )
 
             if len(msg) == 18:
+                return ShipmentModeMessages().QuickMarkAsArrived(
+                    msg=msg,
+                    Shipment_Status_List=Shipment_Status_List
+                )
+
+            if len(msg) == 19:
+                return ShipmentModeMessages().QuickMarkAsNotArrived(
+                    msg=msg,
+                    Shipment_Status_List=Shipment_Status_List
+                )
+
+            if len(msg) == 20:
+                ShipmentModeMessages().ViewDetailedShipmentList(
+                    msg=msg,
+                    Shipment_Reference_List=Shipment_Reference_List,
+                    Individual_Shipment_Status=Individual_Shipment_Status,
+                    Shipment_Groupby_Refs=Shipment_Groupby_Refs,
+                    Individual_Shipment_Carton_Placed=Individual_Shipment_Carton_Placed
+                )
+
+            if len(msg) == 21:
+                ShipmentModeMessages().QuickMarkAsReceipted(
+                    msg=msg,
+                    Shipment_Status_List=PutAway_Groupby_Refs,
+                    Individual_Shipment_Status=Individual_Shipment_Status,
+                    PutAway_Groupby_Refs=PutAway_Groupby_Refs,
+                )
+
+            if len(msg) == 22:
+                ShipmentModeMessages().QuickUnMarkAsReceipted(
+                    msg=msg,
+                    Shipment_Status_List=Shipment_Status_List,
+                    Shipment_Reference_List=Shipment_Reference_List,
+                    Individual_Shipment_Status=Individual_Shipment_Status,
+                    PutAway_Groupby_Refs=PutAway_Groupby_Refs
+                )
+
+            if len(msg) == 23:
+                ShipmentModeMessages().ViewIndividualShipmentItem(
+                    msg=msg,
+                    Shipment_Reference_List=Shipment_Reference_List,
+                    Individual_Shipment_Carton_Placed=Individual_Shipment_Carton_Placed,
+                    Individual_Shipment_Status=Individual_Shipment_Status,
+                    Shipment_Groupby_Refs=Shipment_Groupby_Refs,
+                    Individual_Shipment_Pallet_Amount=Individual_Shipment_Pallet_Amount
+                )
+
+            if len(msg) == 24:
+                ShipmentModeMessages().AddBoxesToVirtualPallet(
+                    msg=msg,
+                    Individual_Shipment_Carton_Placed=Individual_Shipment_Carton_Placed,
+                    Shipment_Status_List=Shipment_Status_List,
+                    Individual_Shipment_Status=Individual_Shipment_Status
+                )
+
+            if len(msg) == 25:
+                ShipmentModeMessages().RemoveBoxesFromVirtualPallet(
+                    msg=msg,
+                    Individual_Shipment_Carton_Placed=Individual_Shipment_Carton_Placed,
+                    Shipment_Status_List=Shipment_Status_List,
+                    Individual_Shipment_Status=Individual_Shipment_Status
+                )
+
+            if len(msg) == 26:
+                ShipmentModeMessages().MarkItemGroupAsReceipted(
+                    msg=msg,
+                    Individual_Shipment_Status=Individual_Shipment_Status,
+                    Shipment_Status_List=Shipment_Status_List,
+                    PutAway_Groupby_Refs=PutAway_Groupby_Refs,
+                    Individual_Shipment_Carton_Placed=Individual_Shipment_Carton_Placed,
+                    Individual_Shipment_Users=Individual_Shipment_Users,
+                    Shipment_Reference_List=Shipment_Reference_List
+                )
+
+            if len(msg) == 27:
+                ShipmentModeMessages().SendItemListGroupToPutAwayDataFrame(
+                    msg=msg,
+                    Receipted_DFS=Receipted_DFS,
+                    Individual_Shipment_Carton_Placed=Individual_Shipment_Carton_Placed,
+                    PutAway_Groupby_Refs=PutAway_Groupby_Refs,
+                    Individual_Shipment_Users=Individual_Shipment_Users,
+                    Shipment_Arrival_List=Shipment_Arrival_List,
+                    Individual_Shipment_Errors=Individual_Shipment_Errors,
+                    Individual_Shipment_Status=Individual_Shipment_Status,
+                    Shipment_Status_List=Shipment_Status_List,
+                    Shipment_Groupby_Refs=Shipment_Groupby_Refs,
+                    Shipment_Reference_List=Shipment_Reference_List
+                )
+
+            if len(msg) == 28:
+                ShipmentModeMessages().PalletTagGenerator(
+                    Pallet_Tag_Number=Pallet_Tag_Number
+                )
+
+            if len(msg) == 29:
+                ShipmentModeMessages().LogVirtualPallet(
+                    msg=msg,
+                    PutAway_Pallet_Counter=PutAway_Pallet_Counter,
+                    Individual_Shipment_Carton_Placed=Individual_Shipment_Carton_Placed,
+                    Individual_Shipment_Pallet_Amount=Individual_Shipment_Pallet_Amount
+                )
+
+            if len(msg) == 30:
+                ShipmentModeMessages().SendErrorMessageToOffice(
+                    msg=msg,
+                    Shipment_Groupby_Refs=Shipment_Groupby_Refs,
+                    Shipment_Reference_List=Shipment_Reference_List
+                )
+
+            if len(msg) == 31:
+                PutAwayModeMessages().ViewDetailedPutAwayList(
+                    msg=msg,
+                    Individual_Shipment_Pallet_Amount=Individual_Shipment_Pallet_Amount,
+                    Individual_PutAway_Status=Individual_PutAway_Status,
+                    PutAway_Groupby_Refs=PutAway_Groupby_Refs,
+                    PutAway_Pallet_Counter=PutAway_Pallet_Counter,
+                    PutAway_Reference_List=PutAway_Reference_List,
+                    Shipment_Reference_List=Shipment_Reference_List
+                )
+
+            if len(msg) == 32:
+                PutAwayModeMessages().ViewDetailedIndividualItem(
+                    msg=msg,
+                    PutAway_Reference_List=PutAway_Reference_List,
+                    Shipment_Reference_List=Shipment_Reference_List,
+                    Individual_Shipment_Pallet_Amount=Individual_Shipment_Pallet_Amount,
+                    PutAway_Groupby_Refs=PutAway_Groupby_Refs,
+                    Individual_PutAway_Status=Individual_PutAway_Status,
+                    Individual_PutAway_Users=Individual_PutAway_Users,
+                    Individual_PutAway_Errors=Individual_PutAway_Errors,
+                    Individual_PutAway_Location=Individual_PutAway_Location
+                )
+
+            if len(msg) == 33:
+                PutAwayModeMessages().MarkLocationPlaced(
+                    msg=msg,
+                    Individual_PutAway_Status=Individual_PutAway_Status,
+                    Individual_Shipment_Pallet_Amount=Individual_Shipment_Pallet_Amount,
+                    PutAway_Pallet_Counter=PutAway_Pallet_Counter,
+                    PutAway_Reference_List=PutAway_Reference_List,
+                    PutAway_Status_List=PutAway_Status_List,
+                    Shipment_Reference_List=Shipment_Reference_List
+                )
+
+            if len(msg) == 34:
+                PutAwayModeMessages().MarkPutAwayGroupAsPutAway(
+                    msg=msg,
+                    Individual_PutAway_Status=Individual_PutAway_Status,
+                    Individual_Shipment_Pallet_Amount=Individual_Shipment_Pallet_Amount,
+                    PutAway_Reference_List=PutAway_Reference_List,
+                    PutAway_Status_List=PutAway_Status_List,
+                    Shipment_Reference_List=Shipment_Reference_List
+                )
+
+            if len(msg) == 35:
+                PutAwayModeMessages().SendPutAwayToOffice(
+                    msg=msg,
+                    Individual_PutAway_Status=Individual_PutAway_Status,
+                    Individual_Shipment_Pallet_Amount=Individual_Shipment_Pallet_Amount,
+                    PutAway_DFS=PutAway_DFS,
+                    PutAway_Groupby_Refs=PutAway_Groupby_Refs,
+                    PutAway_Pallet_Counter=PutAway_Pallet_Counter,
+                    PutAway_Reference_List=PutAway_Reference_List,
+                    Shipment_Reference_List=Shipment_Reference_List,
+                    Shipment_Arrival_List=Shipment_Arrival_List,
+                    Shipment_Status_List=Shipment_Status_List
+                )
 
             print("responded: {}\n".format(msg))
             return msg.encode('utf-8')
@@ -305,6 +477,7 @@ def RefreshFiles():
         global Start_Date
         global Picking_Groupby_Refs
         global Picking_Groupby_Dates
+        global Shipment_Groupby_Refs
         # 2019-02-15
         # Start_Date = Check_to_see_if_day_has_changed(Start_Date)
 
@@ -315,6 +488,19 @@ def RefreshFiles():
 
         Picking_Groupby_Dates = df.groupby('documentDate')
         Picking_Groupby_Refs = df.groupby('reference')
+
+        xlsx = pd.ExcelFile(path_To_Database)
+        df = pd.read_excel(xlsx, sheet_name='Sheet2')
+
+        # Do the same for the shipment sheet
+
+        Shipment_Groupby_Dates = df.groupby('arrivalDate')
+        Shipment_Groupby_Refs = df.groupby('reference')
+
+        try:
+            Pallet_Tag_Number = ShipmentModeMessages.Pallet_Tag_Number
+        except AttributeError:
+            pass
 
         try:
             Todays_List = Picking_Groupby_Dates.get_group(Start_Date)

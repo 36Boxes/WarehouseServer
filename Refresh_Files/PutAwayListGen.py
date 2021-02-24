@@ -1,7 +1,8 @@
 import pandas as pd
 
 class PutAwayListFunctions:
-    
+
+    global PutAway_Groupby_Refs
     
     def Gen_PutAways(self, Receipted_DFS, database):
         if isinstance(Receipted_DFS, pd.DataFrame) is False:

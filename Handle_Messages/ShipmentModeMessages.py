@@ -4,6 +4,8 @@ import smtplib
 
 
 class ShipmentModeMessages:
+    global Pallet_Tag_Number
+
 
     def Bootup_Shipment_Mode(self, Shipment_Reference_List, Shipment_Status_List, Shipment_Arrival_List):
         print("Received Shipment Mode Bootup Message, Responding With Shipment Lists.")
